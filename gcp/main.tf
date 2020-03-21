@@ -25,13 +25,18 @@ resource "google_cloud_run_service" "strapi" {
   metadata {
     annotations = {
       "autoscaling.knative.dev/maxScale"      = "100"
-      "run.googleapis.com/cloudsql-instances" = "${var.project_name}:${var.gcp_location}:${google_sql_database_instance.psql.name}"
+      "run.googleapis.com/cloudsql-instances" = "${var.project_name}:${var.gcp_location}:${google_sql_database_instance.metadata_store.name}"
     }
   }
 }
 
-resource "google_sql_database_instance" "psql" {
-  name             = "covid-19-data-postgres"
+resource "google_sql_database" "metadata_store" {
+  name     = "covid-19-data"
+  instance = google_sql_database_instance.metadata_store.name
+}
+
+resource "google_sql_database_instance" "metadata_store" {
+  name             = "covid-19-data-instance"
   database_version = "POSTGRES_11"
   region           = var.gcp_location
   settings {
@@ -41,6 +46,7 @@ resource "google_sql_database_instance" "psql" {
 
 resource "google_sql_user" "strapi_user" {
   name     = "strapi_user"
-  instance = google_sql_database_instance.psql.name
+  instance = google_sql_database_instance.metadata_store.name
   password = var.strapi_user_db_password
 }
+
