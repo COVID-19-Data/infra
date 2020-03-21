@@ -19,4 +19,6 @@ variable "strapi_image" {
     default = "gcr.io/cloudrun/hello"
 }
 
-
+variable "strapi_user_db_password" {
+  type = string
+}

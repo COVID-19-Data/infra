@@ -24,7 +24,7 @@ resource "google_cloud_run_service" "strapi" {
 
   metadata {
     annotations = {
-      "autoscaling.knative.dev/maxScale"      = "1000"
+      "autoscaling.knative.dev/maxScale"      = "100"
       "run.googleapis.com/cloudsql-instances" = "${var.project_name}:${var.gcp_location}:${google_sql_database_instance.psql.name}"
     }
   }
@@ -39,3 +39,8 @@ resource "google_sql_database_instance" "psql" {
   }
 }
 
+resource "google_sql_user" "strapi_user" {
+  name     = "strapi_user"
+  instance = google_sql_database_instance.psql.name
+  password = var.strapi_user_db_password
+}

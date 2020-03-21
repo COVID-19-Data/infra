@@ -8,6 +8,7 @@
 
 ## Deploy changes
 
+- set `strapi_user_db_password` by setting env var `TF_VAR_strapi_user_db_password` to the desired password 
 from the `gcp` directory
 - run `terraform plan .`
 - once you are happy with your plan, run `terraform apply .`
