@@ -12,14 +12,20 @@ resource "google_cloud_run_service" "strapi" {
   template {
     spec {
       containers {
-        image = var.strapi_image
+        image = "${var.project_location}/${var.project_name}/${var.strapi_image}"
         env {
           name  = "DATABASE_NAME"
           value = google_sql_database.metadata_store.name
+        }
+        env {
           name  = "DATABASE_USERNAME"
           value = google_sql_user.strapi_user.name
+        }
+        env {
           name  = "DATABASE_PASSWORD"
           value = var.strapi_user_db_password
+        }
+        env {
           name  = "DATABASE_SOCKET_PATH"
           value = "/cloudsql/${var.project_name}:${var.gcp_location}:${google_sql_database_instance.metadata_store.name}"
         }
@@ -50,7 +56,7 @@ resource "google_sql_database_instance" "metadata_store" {
   database_version = "POSTGRES_11"
   region           = var.gcp_location
   settings {
-    tier = var.db_size 
+    tier = var.db_size
   }
 }
 
@@ -59,4 +65,3 @@ resource "google_sql_user" "strapi_user" {
   instance = google_sql_database_instance.metadata_store.name
   password = var.strapi_user_db_password
 }
-
