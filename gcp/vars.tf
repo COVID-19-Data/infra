@@ -15,8 +15,7 @@ variable "project_name" {
 
 variable "strapi_image" {
     type = string
-    # TODO: change default container
-    default = "gcr.io/cloudrun/hello"
+    default = "eu.gcr.io/${var.project_name}/strapi:latest"
 }
 
 variable "strapi_user_db_password" {
