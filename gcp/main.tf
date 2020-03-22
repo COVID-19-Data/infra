@@ -5,6 +5,11 @@ terraform {
   }
 }
 
+provider "google" {
+  project     = var.project_name
+  region      = var.gcp_location
+}
+
 resource "google_cloud_run_service" "strapi" {
   name     = "strapi"
   location = var.gcp_location
