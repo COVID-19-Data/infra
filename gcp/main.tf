@@ -34,10 +34,6 @@ resource "google_cloud_run_service" "strapi" {
           name  = "DATABASE_SOCKET_PATH"
           value = "/cloudsql/${var.project_name}:${var.gcp_location}:${google_sql_database_instance.metadata_store.name}"
         }
-        env {
-          name  = "PORT"
-          value = "1337"
-        }
       }
     }
   }
