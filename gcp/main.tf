@@ -47,6 +47,7 @@ resource "google_cloud_run_service" "strapi" {
     annotations = {
       "autoscaling.knative.dev/maxScale"      = "100"
       "run.googleapis.com/cloudsql-instances" = "${var.project_name}:${var.gcp_location}:${google_sql_database_instance.metadata_store.name}"
+      "run.googleapis.com/client-name"        = "cloud-console"
     }
   }
 }
