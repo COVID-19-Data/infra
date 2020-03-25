@@ -63,6 +63,12 @@ resource "google_sql_database_instance" "metadata_store" {
   region           = var.gcp_location
   settings {
     tier = var.db_size
+    ip_configuration{
+      authorized_networks {
+        name = "andrew_madonna"
+        value = "108.4.241.185"
+      }
+    }
   }
 }
 
